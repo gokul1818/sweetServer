@@ -1,18 +1,28 @@
-// Import the express module
+require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
+const authRoutes = require('./src/routes/authRoute');
+const categoriesRoutes = require('./src/routes/categories');
 
-// Create an Express application
 const app = express();
 
-// Define a port number
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Middleware
+app.use(express.json()); // For parsing JSON bodies
+
+// Routes
+app.use('/api', authRoutes); // Prefix API routes with /api
+app.use('/api', categoriesRoutes); // Prefix API routes with /api
+
+// Start the server
 const PORT = process.env.PORT || 3000;
-
-// Define a route handler for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
-// Start the server and listen for requests
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
