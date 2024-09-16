@@ -42,8 +42,8 @@ exports.getAllProductsList = async (req, res) => {
 exports.editProducts = async (req, res) => {
     const { productName, price, offerPrice, quantity, description, images, id } = req.body;
 
-    if (!productName) {
-        return res.status(400).json({ message: 'Product name is required' });
+    if (!id) {
+        return res.status(400).json({ message: 'Product Id is required' });
     }
 
     try {
@@ -78,7 +78,7 @@ exports.deleteProductById = async (req, res) => {
     const { id } = req.body;
     console.log(id)
     if (!id) {
-        return res.status(400).json({ message: 'Product name is required' });
+        return res.status(400).json({ message: 'Product ID is required' });
     }
 
     try {
