@@ -17,7 +17,12 @@ mongoose.connect(process.env.MONGO_URI, {
 // Middleware
 app.use(express.json()); // For parsing JSON bodies
 
+app.get("/", (req, res) => {s
+  res.json("hello welcome")
+})
 // Routes
+
+
 app.use('/api', authRoutes); // Prefix API routes with /api
 app.use('/api', categoriesRoutes); // Prefix API routes with /api
 
