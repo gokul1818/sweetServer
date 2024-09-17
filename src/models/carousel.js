@@ -4,19 +4,20 @@ const { generateUniqueId } = require('../utils/createId');
 
 const carouselSchema = new Schema({
 
-  images: [
-    {
-      url: {
-        type: String,
-        required: true
-      },
-      redirection: {
-        type: String,
-        required: true,
-        default: "/"
-      }
+  image:
+  {
+    url: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    redirection: {
+      type: String,
+      required: true,
+      default: "/"
+    }
 
-    }]
+  }
 
 }, { timestamps: true });
 
