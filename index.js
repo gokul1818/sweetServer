@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./src/routes/authRoute');
 const categoriesRoutes = require('./src/routes/categories');
+const carouselRoutes = require('./src/routes/carousel');
 
 const app = express();
 
@@ -20,8 +21,9 @@ app.get("/", (req, res) => {
 // Routes
 
 
-app.use('/api', authRoutes); // Prefix API routes with /api
-app.use('/api', categoriesRoutes); // Prefix API routes with /api
+app.use('/api', authRoutes);
+app.use('/api', categoriesRoutes);
+app.use('/api', carouselRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
