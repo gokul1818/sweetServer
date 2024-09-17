@@ -4,26 +4,46 @@ const mongoose = require('mongoose');
 const authRoutes = require('./src/routes/authRoute');
 const categoriesRoutes = require('./src/routes/categories');
 const carouselRoutes = require('./src/routes/carousel');
+const cronScheduler = require('./src/utils/scheduler');
+const helmet = require('helmet');
+const importData = require('./src/utils/importCategoryList');
 
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+(async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB connected');
+    await importData();
+
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+})();
 
 // Middleware
 app.use(express.json()); // For parsing JSON bodies
+app.use(helmet()); // For security
 
-app.get("/", (req, res) => {
-  res.json("hello welcome")
-})
 // Routes
-
-
 app.use('/api', authRoutes);
 app.use('/api', categoriesRoutes);
 app.use('/api', carouselRoutes);
+
+// Root route
+app.get("/", (req, res) => {
+  res.json("hello welcome");
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Initialize the scheduler
+cronScheduler.start();
 
 // Start the server
 const PORT = process.env.PORT || 3000;

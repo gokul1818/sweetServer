@@ -1,3 +1,4 @@
+const CategoriesList = require("../models/categories");
 const Categories = require("../models/categories")
 
 exports.addNewProducts = async (req, res) => {
@@ -82,7 +83,7 @@ exports.deleteProductById = async (req, res) => {
     }
 
     try {
-        const deletedProduct = await Categories.findOneAndDelete(id); 
+        const deletedProduct = await Categories.findOneAndDelete(id);
 
         if (!deletedProduct) {
             return res.status(404).json({ message: 'Product not found' });
@@ -93,3 +94,22 @@ exports.deleteProductById = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
+
+exports.getAllProductCategory = async (req, res) => {
+
+
+    try {
+        const products = await CategoriesList.find({});
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'No products found' });
+        }
+        res.status(200).json(products);
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+
+    }
+}
+

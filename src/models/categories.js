@@ -41,6 +41,18 @@ const categoriesSchema = new Schema({
 
 }, { timestamps: true });
 
+const categoriesListSchema = new Schema({
+
+  label: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: String,
+    required: true,
+  }
+
+}, { timestamps: true });
 
 categoriesSchema.pre('save', async function (next) {
   if (this.isNew) {
@@ -59,3 +71,8 @@ categoriesSchema.pre('save', async function (next) {
 const Categories = mongoose.model('categories', categoriesSchema);
 
 module.exports = Categories;
+
+
+const CategoriesList = mongoose.model('categoriesList', categoriesListSchema);
+
+module.exports = CategoriesList;

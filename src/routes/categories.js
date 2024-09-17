@@ -14,5 +14,8 @@ router.put("/products", productsController.editProducts);
 // Route for deleting a product by ID
 router.delete("/products", productsController.deleteProductById);
 
+// dropDown
+router.get("/products/category", productsController.getAllProductCategory);
+
+
 module.exports = router;
-    

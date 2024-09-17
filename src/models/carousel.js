@@ -15,6 +15,10 @@ const carouselSchema = new Schema({
       type: String,
       required: true,
       default: "/"
+    },
+    expiry:{
+      type: String,
+      required: true,
     }
 
   }
