@@ -1,5 +1,4 @@
-const CategoriesList = require("../models/categories");
-const Categories = require("../models/categories")
+const { Categories, CategoriesList } = require("../models/categories")
 
 exports.addNewProducts = async (req, res) => {
 

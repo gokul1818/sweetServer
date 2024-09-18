@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
 const { generateUniqueId } = require('../utils/createId');
 
+const Schema = mongoose.Schema;
+
+// Categories Schema
 const categoriesSchema = new Schema({
   productName: {
     type: String,
@@ -11,42 +11,40 @@ const categoriesSchema = new Schema({
   },
   id: {
     type: Number,
+    unique: true, // Ensure unique IDs
   },
   price: {
-    type: String,
+    type: Number, // Consider changing to Number if appropriate
     required: true,
   },
   offerPrice: {
-    type: String,
-    required: true
+    type: Number, // Consider changing to Number if appropriate
+    required: true,
   },
   quantity: {
-    type: String,
-    required: true
-
+    type: Number, // Consider changing to Number if appropriate
+    required: true,
   },
   description: {
     type: String,
-    required: true
-
+    required: true,
   },
   offersAvailable: {
     type: Boolean,
-    default: false
+    default: false,
   },
   images: [
     {
       url: {
         type: String,
-        required: false
-      }
-
-    }]
-
+        required: false, // Optional as specified
+      },
+    },
+  ],
 }, { timestamps: true });
 
+// Categories List Schema
 const categoriesListSchema = new Schema({
-
   label: {
     type: String,
     required: true,
@@ -54,10 +52,10 @@ const categoriesListSchema = new Schema({
   value: {
     type: String,
     required: true,
-  }
-
+  },
 }, { timestamps: true });
 
+// Pre-save middleware to generate unique ID
 categoriesSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
@@ -72,11 +70,12 @@ categoriesSchema.pre('save', async function (next) {
   }
 });
 
-const Categories = mongoose.model('categories', categoriesSchema);
+// Models
+const Categories = mongoose.model('Categories', categoriesSchema);
+const CategoriesList = mongoose.model('CategoriesList', categoriesListSchema);
 
-module.exports = Categories;
-
-
-const CategoriesList = mongoose.model('categoriesList', categoriesListSchema);
-
-module.exports = CategoriesList;
+// Exporting models
+module.exports = {
+  Categories,
+  CategoriesList,
+};
