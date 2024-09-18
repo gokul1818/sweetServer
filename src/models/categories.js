@@ -30,6 +30,10 @@ const categoriesSchema = new Schema({
     required: true
 
   },
+  offersAvailable: {
+    type: Boolean,
+    default: false
+  },
   images: [
     {
       url: {

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./src/routes/authRoute');
 const categoriesRoutes = require('./src/routes/categories');
 const carouselRoutes = require('./src/routes/carousel');
+const cartRoutes = require('./src/routes/cart');
 const cronScheduler = require('./src/utils/scheduler');
 const helmet = require('helmet');
 const importData = require('./src/utils/importCategoryList');
@@ -16,7 +17,7 @@ const app = express();
     await mongoose.connect(process.env.MONGO_URI);
     console.log('MongoDB connected');
     // await importData();
-// cronScheduler.start();
+    // cronScheduler.start();
 
 
   } catch (err) {
@@ -32,6 +33,7 @@ app.use(helmet()); // For security
 app.use('/api', authRoutes);
 app.use('/api', categoriesRoutes);
 app.use('/api', carouselRoutes);
+app.use('/api', cartRoutes);
 
 // Root route
 app.get("/", (req, res) => {
