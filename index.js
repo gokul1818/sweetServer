@@ -11,22 +11,23 @@ const importData = require('./src/utils/importCategoryList');
 const cors = require("cors");
 
 const app = express();
-app.use(cors())
-  // Connect to MongoDB
-  (async function connectDB() {
-    try {
-      await mongoose.connect(process.env.MONGO_URI);
-      console.log('MongoDB connected');
-      // await importData();
-      // cronScheduler.start();
+// Connect to MongoDB
+(async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB connected');
+    // await importData();
+    // cronScheduler.start();
 
 
-    } catch (err) {
-      console.error('MongoDB connection error:', err);
-    }
-  })();
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+})();
 
 // Middleware
+app.use(cors());
+
 app.use(express.json()); // For parsing JSON bodies
 app.use(helmet()); // For security
 
