@@ -43,7 +43,6 @@ const categoriesSchema = new Schema({
   images: [
     {
       url: { type: String, required: true },
-      alt: { type: String, required: true }
     }
   ],
   category: {
