@@ -1,14 +1,34 @@
 [
   {
-    "label": "Sweet",
-    "value": "Sweet"
+    "label": "Sweets",
+    "value": "sweets",
+    "sub": [
+      {
+        "label": "Milk Sweets",
+        "value": "milk_sweets"
+      },
+      {
+        "label": "Ghee Sweets",
+        "value": "ghee_sweets"
+      }
+    ]
   },
   {
-    "label": " Savouries",
-    "value": " Savouries"
+    "label": "Savouries",
+    "value": "savouries",
+    "sub": [
+      {
+        "label": "Chips",
+        "value": "chips"
+      },
+      {
+        "label": "Snacks",
+        "value": "snacks"
+      }
+    ]
   },
   {
-    "label": " Hampers",
-    "value": " Hampers"
+    "label": "Hampers",
+    "value": "hampers"
   }
 ]

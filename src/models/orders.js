@@ -64,6 +64,18 @@ const ordersSchema = new Schema({
     type: Number,
     required: true
   },
+  trackOrderStatus: {
+    type: Object,
+    default: null
+  },
+  orderConfirmedDate: {
+    type: String,
+    default: Date
+  },
+  isCancelled: {
+    type: Boolean,
+    default: false
+  },
   id: {
     type: Number,
 

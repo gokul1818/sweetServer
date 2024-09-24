@@ -11,19 +11,22 @@ const categoriesSchema = new Schema({
   },
   id: {
     type: Number,
-    unique: true, // Ensure unique IDs
+    unique: true,
   },
   price: {
-    type: Number, // Consider changing to Number if appropriate
+    type: Number,
     required: true,
+    min: 0, // Ensures price cannot be negative
   },
   offerPrice: {
-    type: Number, // Consider changing to Number if appropriate
+    type: Number,
     required: true,
+    min: 0, // Ensures offer price cannot be negative
   },
   quantity: {
-    type: Number, // Consider changing to Number if appropriate
+    type: Number,
     required: true,
+    min: 0, // Ensures quantity cannot be negative
   },
   description: {
     type: String,
@@ -35,16 +38,19 @@ const categoriesSchema = new Schema({
   },
   isStock: {
     type: Boolean,
-    default: false
+    default: false,
   },
   images: [
     {
-      url: {
-        type: String,
-        required: false, // Optional as specified
-      },
-    },
+      url: { type: String, required: true },
+      alt: { type: String, required: true }
+    }
   ],
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'CategoriesList',
+    required: true,
+  },
 }, { timestamps: true });
 
 // Categories List Schema
@@ -57,6 +63,12 @@ const categoriesListSchema = new Schema({
     type: String,
     required: true,
   },
+  sub: [
+    {
+      label: { type: String, required: true },
+      value: { type: String, required: true },
+    }
+  ]
 }, { timestamps: true });
 
 // Pre-save middleware to generate unique ID

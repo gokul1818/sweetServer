@@ -1,10 +1,8 @@
-// importData.js
-
 require('dotenv').config();
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
-const CategoriesList = require('../models/categories');
+const { CategoriesList } = require('../models/categories'); // Adjust the import as needed
 
 async function importData() {
     try {
@@ -20,14 +18,16 @@ async function importData() {
         const jsonData = fs.readFileSync(filePath, 'utf8');
         const categoriesListData = JSON.parse(jsonData);
 
-        // Import data into MongoDB
-        await CategoriesList.deleteMany(); // Optionally clear existing data
+        // Clear existing data (optional)
+        await CategoriesList.deleteMany();
+
+        // Import new data into MongoDB
         const result = await CategoriesList.insertMany(categoriesListData);
         console.log(`Inserted ${result.length} categories into categoriesList collection`);
     } catch (error) {
         console.error('Error importing data:', error);
     } finally {
-        mongoose.connection.close();
+        await mongoose.connection.close();
     }
 }
 

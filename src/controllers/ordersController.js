@@ -19,14 +19,14 @@ exports.addOrders = async (req, res) => {
 
 // Function to update an existing order
 exports.updateOrder = async (req, res) => {
-    const { products, userId, totalPrice, paymentsMethod, address, id } = req.body; // Extract order details from the request body
+    const { paymentsMethod, address, id, trackOrderStatus, isCancelled } = req.body; // Extract order details from the request body
 
-    if (!id || !products || !userId || !totalPrice || !paymentsMethod || !address) {
+    if (!id) {
         return res.status(400).json({ message: 'Invalid request' });
     }
 
     try {
-        const existingOrder = await Orders.findOneAndUpdate({id}); // Find the order by ID
+        const existingOrder = await Orders.findOneAndUpdate({ id }); // Find the order by ID
         if (!existingOrder) {
             return res.status(404).json({ message: 'Order not found' });
         }
@@ -34,6 +34,8 @@ exports.updateOrder = async (req, res) => {
         // Update the order details
         existingOrder.paymentsMethod = paymentsMethod;
         existingOrder.address = address;
+        existingOrder.trackOrderStatus = trackOrderStatus
+        existingOrder.isCancelled = isCancelled
 
         await existingOrder.save(); // Save the updated order
         res.status(200).json({ message: 'Order successfully updated' });
