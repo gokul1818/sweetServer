@@ -44,7 +44,7 @@ exports.deleteCarouselById = async (req, res) => {
     }
 
     try {
-        const deletedCarousel = await Carousel.findOneAndDelete({ _id: id });
+        const deletedCarousel = await Carousel.findOneAndDelete({ id: id });
 
         if (!deletedCarousel) {
             return res.status(404).json({ message: 'Carousel not found' });

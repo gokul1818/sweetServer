@@ -4,7 +4,7 @@ const carouselController = require("../controllers/carouselController"); // Assu
 
 router.post("/carousel", carouselController.addNewCarousel);
 router.get("/carousel", carouselController.getAllCarousel);
-router.delete("/carousel", carouselController.deleteCarouselById);
+router.delete("/carousel/:id", carouselController.deleteCarouselById);
 
 module.exports = router;
     

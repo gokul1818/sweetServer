@@ -33,6 +33,10 @@ const categoriesSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  isStock: {
+    type: Boolean,
+    default: false
+  },
   images: [
     {
       url: {

@@ -16,10 +16,14 @@ const carouselSchema = new Schema({
       required: true,
       default: "/"
     },
-    expiry:{
+    expiry: {
       type: String,
       required: true,
-    }
+    },
+  },
+   id: {
+    type: Number,
+    unique: true
 
   }
 
