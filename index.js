@@ -5,6 +5,7 @@ const authRoutes = require('./src/routes/authRoute');
 const categoriesRoutes = require('./src/routes/categories');
 const carouselRoutes = require('./src/routes/carousel');
 const cartRoutes = require('./src/routes/cart');
+const orderRoutes = require('./src/routes/orders');
 const cronScheduler = require('./src/utils/scheduler');
 const helmet = require('helmet');
 const importData = require('./src/utils/importCategoryList');
@@ -35,6 +36,7 @@ app.use('/api', authRoutes);
 app.use('/api', categoriesRoutes);
 app.use('/api', carouselRoutes);
 app.use('/api', cartRoutes);
+app.use('/api', orderRoutes);
 
 // Root route
 app.get("/", (req, res) => {

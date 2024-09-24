@@ -65,7 +65,7 @@ const ordersSchema = new Schema({
     required: true
   },
   id: {
-    type: String,
+    type: Number,
 
   }
 
