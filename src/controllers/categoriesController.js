@@ -3,14 +3,14 @@ const { Categories, CategoriesList } = require("../models/categories")
 exports.addNewProducts = async (req, res) => {
 
 
-    const { productName, price, offerPrice, quantity, description, images, offersAvailable, isStock } = req.body
+    const { productName, price, offerPrice, quantity, description, images, offersAvailable, isStock, category } = req.body
     try {
         const existProductName = await Categories.findOne({ productName })
         if (existProductName) {
             return res.status(400).json({ message: 'product already taken' });
         }
         // Create a new user
-        const categories = new Categories({ productName, price, offerPrice, quantity, description, images, offersAvailable, isStock });
+        const categories = new Categories({ productName, price, offerPrice, quantity, description, images, offersAvailable, isStock, category    });
         await categories.save();
         res.status(200).json({ message: 'product successfully added' });
 
@@ -40,7 +40,7 @@ exports.getAllProductsList = async (req, res) => {
 }
 
 exports.editProducts = async (req, res) => {
-    const { productName, price, offerPrice, quantity, offersAvailable, description, images, id, isStock } = req.body;
+    const { productName, price, offerPrice, quantity, offersAvailable, description, images, id, isStock ,category} = req.body;
 
     if (!id) {
         return res.status(400).json({ message: 'Product Id is required' });
@@ -60,7 +60,9 @@ exports.editProducts = async (req, res) => {
             existingProduct.description = description;
             existingProduct.images = images;
             existingProduct.offersAvailable = offersAvailable
-            existingProduct.isStock = isStock
+            existingProduct.isStock = isStock,
+            existingProduct.category = category,
+
             await existingProduct.save();
             res.status(200).json({ message: 'Product successfully updated' });
         } else {
