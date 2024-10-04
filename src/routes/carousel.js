@@ -7,4 +7,4 @@ router.get("/carousel", carouselController.getAllCarousel);
 router.delete("/carousel/:id", carouselController.deleteCarouselById);
 
 module.exports = router;
-    
+        

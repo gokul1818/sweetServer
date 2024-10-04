@@ -6,10 +6,12 @@ const categoriesRoutes = require('./src/routes/categories');
 const carouselRoutes = require('./src/routes/carousel');
 const cartRoutes = require('./src/routes/cart');
 const orderRoutes = require('./src/routes/orders');
+const webhookRoutes = require('./src/routes/webhook');
+const fileUpload = require('./src/routes/uploadFile');
 const cronScheduler = require('./src/utils/scheduler');
 const helmet = require('helmet');
-const importData = require('./src/utils/importCategoryList');
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
 const app = express();
 // Connect to MongoDB
@@ -27,6 +29,7 @@ const app = express();
 })();
 
 // Middleware
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json()); // For parsing JSON bodies
 app.use(helmet()); // For security
@@ -37,6 +40,9 @@ app.use('/api', categoriesRoutes);
 app.use('/api', carouselRoutes);
 app.use('/api', cartRoutes);
 app.use('/api', orderRoutes);
+app.use('/api', webhookRoutes);
+app.use('/api', fileUpload);
+
 
 // Root route
 app.get("/", (req, res) => {
