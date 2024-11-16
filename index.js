@@ -47,6 +47,9 @@ app.use(cors());
 app.use(express.json()); // For parsing JSON bodies
 app.use(helmet()); // Security middleware
 
+const mongoose = require('mongoose');
+const Message = require('./models/message'); // Assuming the Message model is imported
+
 // Chat endpoint
 io.on('connection', (socket) => {
   console.log('A user connected');
@@ -58,21 +61,44 @@ io.on('connection', (socket) => {
 
     // Send existing messages to the client when they join a room
     const messages = await Message.find({ roomId });
-    socket.emit('previousMessages', messages);
+
+    // Convert image binary data to base64 if present
+    const formattedMessages = messages.map((msg) => {
+      if (msg.image) {
+        msg.image = msg.image.toString('base64'); // Convert binary image data to base64
+      }
+      return msg;
+    });
+
+    socket.emit('previousMessages', formattedMessages);
   });
 
   // Handle sending a message to a specific room
-  socket.on('sendMessage', async ({ roomId, username, message ,image }) => {
-    const newMessage = new Message({ roomId, username, message,image });
-    await newMessage.save(); // Save the message to the database
+  socket.on('sendMessage', async ({ roomId, username, message, image }) => {
+    let imageBuffer = null;
 
-    io.to(roomId).emit('receiveMessage', newMessage); // Send the message to all users in the room
+    if (image) {
+      // Save the image as binary data
+      imageBuffer = Buffer.from(image.split(',')[1], 'base64'); // Remove base64 prefix and convert to buffer
+    }
+
+    const newMessage = new Message({ roomId, username, message, image: imageBuffer });
+    
+    // Save the message to the database
+    await newMessage.save();
+
+    // Broadcast the message to the room
+    io.to(roomId).emit('receiveMessage', {
+      ...newMessage._doc,
+      image: imageBuffer ? imageBuffer.toString('base64') : null, // Send image as Base64 to frontend
+    });
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
 });
+
 // API routes
 app.use('/api', authRoutes);
 app.use('/api', categoriesRoutes);
