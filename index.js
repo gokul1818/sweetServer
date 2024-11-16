@@ -47,9 +47,6 @@ app.use(cors());
 app.use(express.json()); // For parsing JSON bodies
 app.use(helmet()); // Security middleware
 
-const mongoose = require('mongoose');
-const Message = require('./models/message'); // Assuming the Message model is imported
-
 // Chat endpoint
 io.on('connection', (socket) => {
   console.log('A user connected');
@@ -83,7 +80,7 @@ io.on('connection', (socket) => {
     }
 
     const newMessage = new Message({ roomId, username, message, image: imageBuffer });
-    
+
     // Save the message to the database
     await newMessage.save();
 
