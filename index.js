@@ -62,8 +62,8 @@ io.on('connection', (socket) => {
   });
 
   // Handle sending a message to a specific room
-  socket.on('sendMessage', async ({ roomId, username, message }) => {
-    const newMessage = new Message({ roomId, username, message });
+  socket.on('sendMessage', async ({ roomId, username, message ,image }) => {
+    const newMessage = new Message({ roomId, username, message,image });
     await newMessage.save(); // Save the message to the database
 
     io.to(roomId).emit('receiveMessage', newMessage); // Send the message to all users in the room
