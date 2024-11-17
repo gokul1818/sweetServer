@@ -47,7 +47,7 @@ app.use(cors());
 app.use(express.json()); // For parsing JSON bodies
 app.use(helmet()); // Security middleware
 
-// Chat endpoint
+
 io.on('connection', (socket) => {
   console.log('A user connected');
 
@@ -56,45 +56,33 @@ io.on('connection', (socket) => {
     socket.join(roomId);
     console.log(`User joined room: ${roomId}`);
 
-    // Send existing messages to the client when they join a room
-    const messages = await Message.find({ roomId });
-
-    // Convert image binary data to base64 if present
-    const formattedMessages = messages.map((msg) => {
-      if (msg.image) {
-        msg.image = msg.image.toString('base64'); // Convert binary image data to base64
-      }
-      return msg;
-    });
-
-    socket.emit('previousMessages', formattedMessages);
+    // Fetch previous messages and send to the client
+    try {
+      const messages = await Message.find({ roomId }).sort({ timestamp: 1 }); // Sort by oldest first
+      socket.emit('previousMessages', messages);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
   });
 
-  // Handle sending a message to a specific room
+  // Handle sending a message
   socket.on('sendMessage', async ({ roomId, username, message, image }) => {
-    let imageBuffer = null;
+    try {
+      // Save the new message to the database
+      const newMessage = new Message({ roomId, username, message, image });
+      await newMessage.save();
 
-    if (image) {
-      // Save the image as binary data
-      imageBuffer = Buffer.from(image.split(',')[1], 'base64'); // Remove base64 prefix and convert to buffer
+      // Emit the new message to all users in the room
+      io.to(roomId).emit('receiveMessage', newMessage);
+    } catch (error) {
+      console.error('Error saving message:', error);
     }
-
-    const newMessage = new Message({ roomId, username, message, image: imageBuffer });
-
-    // Save the message to the database
-    await newMessage.save();
-
-    // Broadcast the message to the room
-    io.to(roomId).emit('receiveMessage', {
-      ...newMessage._doc,
-      image: imageBuffer ? imageBuffer.toString('base64') : null, // Send image as Base64 to frontend
-    });
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
-});
+})
 
 // API routes
 app.use('/api', authRoutes);

@@ -5,7 +5,7 @@ const messageSchema = new mongoose.Schema({
   username: String,
   message: String,
   image: {
-    type: Buffer, // Store image data as binary
+    type: String, // Store image data as binary
     required: false, // Make it optional in case not every message has an image
   },
   timestamp: {
