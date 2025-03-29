@@ -8,6 +8,7 @@ const cartRoutes = require('./src/routes/cart');
 const orderRoutes = require('./src/routes/orders');
 const webhookRoutes = require('./src/routes/webhook');
 const fileUpload = require('./src/routes/uploadFile');
+const sendMail = require('./src/routes/sendmail');
 const cronScheduler = require('./src/utils/scheduler');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -92,6 +93,7 @@ app.use('/api', cartRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', webhookRoutes);
 app.use('/api', fileUpload);
+app.use('/api', sendMail);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
