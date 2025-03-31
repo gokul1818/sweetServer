@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+
 // Registration endpoint
 exports.register = async (req, res) => {
   const { username, password, emailId, phoneNumber } = req.body;

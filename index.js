@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+// routes
 const authRoutes = require('./src/routes/authRoute');
 const categoriesRoutes = require('./src/routes/categories');
 const carouselRoutes = require('./src/routes/carousel');
@@ -10,6 +11,7 @@ const webhookRoutes = require('./src/routes/webhook');
 const fileUpload = require('./src/routes/uploadFile');
 const sendMail = require('./src/routes/sendmail');
 const cronScheduler = require('./src/utils/scheduler');
+
 const helmet = require('helmet');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -19,6 +21,7 @@ const Message = require('./src/models/messages');
 
 const app = express();
 const server = http.createServer(app);
+
 const io = socketIo(server, {
   cors: {
     origin: "*", // Allow all origins (use cautiously in production)
