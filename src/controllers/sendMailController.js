@@ -15,8 +15,8 @@ exports.sendMail = async (req, res) => {
     const { name, email, message } = req.body;
 
     const mailOptions = {
-        from: process.env.EMAIL_USER, // Sender's email
-        to: process.env.EMAIL_USER, // Recipient (your email)
+        from: email, // Sender's email
+        to: "gokulakrishnan.developer18@gmail.com", // Recipient (your email)
         subject: `New Contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
