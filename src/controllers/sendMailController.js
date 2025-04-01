@@ -15,11 +15,13 @@ exports.sendMail = async (req, res) => {
     const { name, email, message } = req.body;
 
     const mailOptions = {
-        from: email, // Sender's email
-        to: "gokulakrishnan.developer18@gmail.com", // Recipient (your email)
+        from: `${name} ${email}`, // ✅ Sender name before email
+        to: process.env.EMAIL_USER,
         subject: `New Contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        replyTo: email, // ✅ Ensures replies go to the sender
     };
+
     console.log(mailOptions)
     try {
         await transporter.sendMail(mailOptions);
