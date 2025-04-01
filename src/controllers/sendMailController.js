@@ -20,7 +20,7 @@ exports.sendMail = async (req, res) => {
         subject: `New Contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
-
+    console.log(mailOptions)
     try {
         await transporter.sendMail(mailOptions);
         res.status(200).json({ success: true, message: "Email sent successfully!" });
